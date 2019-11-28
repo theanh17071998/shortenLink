@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    build: ./app
+    environment:
+      - PORT=80
+    container_name: shorten_url
+    image: misadockerhub.vn:30100/misa/shorten_url:0.2.22
+    network_mode: host 
+
+  cassandra:
+    image: 'bitnami/cassandra:3'
+    ports:
+      - '7000:7000'
+      - '9042:9042'
+    # volumes:
+    #   - './cassandra:/bitnami'
+    #   - './cassandra:/docker-entrypoint-initdb.d'
+    restart: on-failure
+    environment:
+      - CASSANDRA_SEEDS=cassandra
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_PASSWORD=cassandra
+
